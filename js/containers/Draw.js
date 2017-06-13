@@ -101,7 +101,7 @@ export class Draw extends Component {
         }} onClick={this.draw}>Draw</div>
         {!!drawResult.length &&
           <div className="panel panel-default">
-            <div className="panel-heading">Knockout against Table</div>
+            <div className="panel-heading">Brackets</div>
             <div className="panel-body">
               <table className="table table-bordered">
                 <tbody>

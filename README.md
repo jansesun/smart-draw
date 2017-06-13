@@ -1,2 +1,2 @@
 # smart-draw
-Generate against table according to players' rank
+Generate brackets according to players' rank

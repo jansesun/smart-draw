@@ -176,7 +176,7 @@ describe('Draw', () => {
         draw={expect.createSpy()}
       />
     );
-    expect(tree.find('.panel-heading').at(1).text()).toBe('Knockout against Table');
+    expect(tree.find('.panel-heading').at(1).text()).toBe('Brackets');
     const firstTableBody = tree.find('tbody').first();
     expect(firstTableBody.children().length).toBe(drawResult.length);
     const row = firstTableBody.find('tr');
