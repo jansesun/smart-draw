@@ -4,7 +4,10 @@ import util from '../lib/util';
 // Actions
 export const playerActions = createActions(['updateField$', 'reset$']);
 export const indexActions = createActions(['add$', 'draw$', 'remove$']);
-const TIMESTAMP = util.formatDate(Date.now(), 'yyyyMMdd');
+const TIMESTAMP = util.formatDate(Date.now(), 'yyyyMMdd', {
+  year: '2-digit',
+  month: '2-digit'
+});
 // Reducers
 const playerInitialState = {
   name: '',

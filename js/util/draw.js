@@ -20,8 +20,17 @@ export const seedSort = function(n) {
     _seedSort(n);
     return result;
 };
+export const generateBrackets = function(list, defaultPlayer) {
+    const drawIndex = seedSort(list.length);
+    const drawResult = [];
+    drawIndex.forEach((v, i) => {
+        const index = i >> 1;
+        drawResult[index] = [...(drawResult[index] || []), list[v - 1] || (typeof defaultPlayer === 'object' ? { ...defaultPlayer } : defaultPlayer)];
+    });
+    return drawResult;
+};
 /**
- * alist = [
+ * list = [
  *   {
  *     name: 'SunJian',
  *     seedIndex: 1,
@@ -29,10 +38,13 @@ export const seedSort = function(n) {
  *   }
  * ];
  */
-export default function draw(list) {
-    // 报名总人数
-    const playerNum = list.length;
 
+/**
+ * draw
+ * @param  {Array} list player list
+ * @return {Array} brackets
+ */
+export default function draw(list) {
     // 种子选手按顺序排位
     const seededPlayers = list.filter(player => player.seedIndex !== void 0);
     seededPlayers.sort((player1, player2) => player1.seedIndex - player2.seedIndex);
@@ -45,17 +57,12 @@ export default function draw(list) {
     const otherPlayers = list.filter(player => player.gender === 1 && player.seedIndex === void 0);
     otherPlayers.sort(() => Math.random() - 0.5);
 
-    const drawIndex = seedSort(playerNum);
     const sortedPlayers = [...seededPlayers, ...unseededGirls, ...otherPlayers];
-    const drawResult = [];
-    drawIndex.forEach((v, i) => {
-        const index = i >> 1;
-        drawResult[index] = [...(drawResult[index] || []), sortedPlayers[v - 1] || {
-          name: 'N/A',
-          gender: 1
-        }];
+
+    return generateBrackets(sortedPlayers, {
+        name: 'N/A',
+        gender: 1
     });
-    return drawResult;
 }
 // var alist = [
 //     {
