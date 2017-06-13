@@ -1,2 +1,2 @@
 # smart-draw
-Allocate against table according to players' order
+Generate against table according to players' rank
