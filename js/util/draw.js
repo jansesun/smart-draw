@@ -1,5 +1,12 @@
+export const ceilPow2 = function(n) {
+    const num = n;
+    while(n & (n - 1)) {
+        n--;
+    }
+    return n === num ? n : n << 1;
+};
 export const seedSort = function(n) {
-    n = n && (1 << Math.ceil(Math.log2(n)));
+    n = n && (ceilPow2(n));
     let result = [];
     function _seedSort(n) {
         var len = result.length;

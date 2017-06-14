@@ -1,6 +1,13 @@
 import expect from 'expect';
-import { seedSort, generateBrackets } from '../../util/draw';
-
+import { seedSort, generateBrackets, ceilPow2 } from '../../util/draw';
+describe('ceilPow2', () => {
+  it('should return the minimal power of 2 which is greater than n, when n is not power of 2', () => {
+    expect(ceilPow2(7)).toBe(8);
+  });
+  it('should return n, when n is a power of 2', () => {
+    expect(ceilPow2(2)).toBe(2);
+  });
+});
 describe('seedSort', () => {
   it('should generate empty array when n is 0', () => {
     expect(seedSort(0)).toEqual([]);
