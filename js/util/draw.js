@@ -8,23 +8,17 @@ export const ceilPow2 = function(n) {
 export const seedSort = function(n) {
     n = n && (ceilPow2(n));
     let result = [];
-    function _seedSort(n) {
-        var len = result.length;
-        if(len === n) {
-            return;
-        }
-        if(len === 0) {
-            result.push(1);
-        } else {
-            if(!((len - 1) & len)) {
-                for(var i = len - 1; i >= 0 && n !== result.length; --i) {
-                    result.push(result[i] + (i % 2 ? -1 : 1) * (n / len - 1));
-                }
+    if(n > 0) {
+        result[0] = 1;
+        let baseLen = 0;
+        for(let i = 1; i < n; ++i) {
+            if(!((i - 1) & i)) {
+                baseLen = i;
             }
+            const baseIndex = (baseLen << 1) - i - 1;
+            result[i] = result[baseIndex] + (baseIndex % 2 ? -1 : 1) * (n / baseLen - 1);
         }
-        _seedSort(n);
     }
-    _seedSort(n);
     return result;
 };
 export const generateBrackets = function(list, defaultPlayer) {
