@@ -6,34 +6,47 @@ import { AllowUndefined } from '../util/enhancePropTypes';
 import PlayerCell from '../components/PlayerCell';
 import util from '../lib/util';
 import drawList from '../util/draw';
+const isPositiveNum = function(val) {
+  return typeof val === 'number' && val > 0;
+};
 export class Draw extends Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     util.bindMethods(['add', 'draw', 'updateFiled', 'remove'], this);
   }
   add() {
-    const { name, gender, seedIndex, add, reset } = this.props;
+    const { name, gender, seedIndex, add, reset, drawResult } = this.props;
+    if(drawResult.length) {
+      alert('The draw result has been generated!');
+      return;
+    }
     if(!name) {
       alert('Please input player\'s name');
       return;
     }
+    if(this.nameSet.has(name)) {
+      alert('Your name has been occupied');
+      return;
+    }
     reset();
+    this.nameSet.add(name);
     const player = {
       name,
       gender
     };
-    if(seedIndex) {
+    if(seedIndex && (+seedIndex + '' === seedIndex)) {
       player.seedIndex = +seedIndex;
     }
     add(player);
   }
   remove(index) {
-    const { remove, drawResult } = this.props;
+    const { remove, drawResult, playerList } = this.props;
     if(drawResult.length) {
       alert('The draw result has been generated!');
       return;
     }
     if(confirm('Will you remove this player?')) {
+      this.nameSet.delete(playerList[index].name);
       remove(index);
     }
   }
@@ -47,9 +60,18 @@ export class Draw extends Component {
       draw(drawList(playerList));
     }
   }
+  updateSeedIndex(value) {
+    if(value.match(/^(?:[1-9]\d*)?$/)) {
+      this.updateField('seedIndex', value);
+    }
+  }
   updateField(field, value) {
     const { updateField } = this.props;
     updateField(field, value);
+  }
+  componentWillMount() {
+    const { playerList } = this.props;
+    this.nameSet = new Set(playerList.map(player => player.name));
   }
   render() {
     const { name, gender, seedIndex, drawResult, playerList, updateFiled, add, draw } = this.props;
@@ -83,7 +105,7 @@ export class Draw extends Component {
                   placeholder="Seed Index"
                   value={seedIndex}
                   onChange={(e) => {
-                    this.updateField('seedIndex', e.target.value);
+                    this.updateSeedIndex(e.target.value.trim());
                   }}
                 />
               </div>
