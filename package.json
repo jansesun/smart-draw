@@ -1,11 +1,12 @@
 {
-  "name": "rxjs-react-demo",
+  "name": "smart-draw",
   "version": "1.0.0",
-  "description": "A demo with react and rxjs",
+  "description": "Generate brackets according to players'rank",
   "main": "index.js",
   "scripts": {
-    "start": "node server.js",
-    "test": "NODE_ENV=test mocha --recursive --compilers js:babel-register -r ./js/test/setup.js ./js/test"
+    "start": "NODE_ENV=development node server.js",
+    "test": "NODE_ENV=test mocha --recursive --compilers js:babel-register -r ./js/test/setup.js ./js/test",
+    "build": "NODE_ENV=production webpack --config webpack.config.js --colors && mv ./release/js/* ../jansesun.github.io/js/smart-draw"
   },
   "repository": {
     "type": "git",
