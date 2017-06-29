@@ -7,6 +7,9 @@ export const ceilPow2 = function(n) {
 };
 export const seedSort = function(n) {
     n = n && (ceilPow2(n));
+    if(n === 1) {
+        n = 2;
+    }
     let result = [];
     if(n > 0) {
         result[0] = 1;
