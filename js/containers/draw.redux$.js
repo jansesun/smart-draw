@@ -22,10 +22,10 @@ export const playerReducer$ = Rx.Observable.of(() => playerInitialState)
     })),
     playerActions.reset$.map(() => state => playerInitialState)
   );
-const initialDrawResult = JSON.parse(localStorage.getItem(`drawResult_${TIMESTAMP}`)) || [];
+const initialDrawResult = JSON.parse(localStorage.getItem(`drawResult_${TIMESTAMP}`)) || [[]];
 const initialState = {
   playerList: JSON.parse(localStorage.getItem(`playerList_${TIMESTAMP}`)) || [],
-  drawResult: initialDrawResult.length > 1 ? initialDrawResult : []
+  drawResult: initialDrawResult[0].length === 2 ? initialDrawResult : []
 };
 export const indexReducer$ = Rx.Observable.of(() => initialState)
   .merge(
