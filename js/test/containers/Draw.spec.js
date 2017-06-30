@@ -233,11 +233,7 @@ describe('Draw', () => {
     expect(updateField).toHaveBeenCalledWith('gender', 0);
 
     addBtn.simulate('click');
-    expect(add).toHaveBeenCalledWith({
-      name: 'Sun Jian',
-      gender: 1
-    });
-    expect(reset).toHaveBeenCalled();
+    expect(add).toNotHaveBeenCalled();
 
     drawBtn.simulate('click');
     expect(draw).toNotHaveBeenCalled();
@@ -246,7 +242,7 @@ describe('Draw', () => {
     expect(remove).toNotHaveBeenCalled();
 
   });
-  it('should call draw and remove actions when drawResult is empty', () => {
+  it('should call add, draw and remove actions when drawResult is empty', () => {
     const updateField = expect.createSpy();
     const add = expect.createSpy();
     const reset = expect.createSpy();
@@ -267,6 +263,15 @@ describe('Draw', () => {
         draw={draw}
       />
     );
+
+    const addBtn = tree.find('.btn-primary');
+    addBtn.simulate('click');
+    expect(add).toHaveBeenCalledWith({
+      name: 'Sun Jian',
+      gender: 1
+    });
+    expect(reset).toHaveBeenCalled();
+
     const drawBtn = tree.find('.btn-success');
     drawBtn.simulate('click');
     expect(draw).toHaveBeenCalled();

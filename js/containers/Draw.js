@@ -75,6 +75,8 @@ export class Draw extends Component {
   }
   render() {
     const { name, gender, seedIndex, drawResult, playerList, updateFiled, add, draw } = this.props;
+    const totalNum = playerList.length;
+    const girlNum = playerList.filter(player => player.gender === 0).length;
     return (
       <div style={{
         margin: '15px'
@@ -124,38 +126,48 @@ export class Draw extends Component {
         {!!drawResult.length &&
           <div className="panel panel-default">
             <div className="panel-heading">Brackets</div>
-            <div className="panel-body">
-              <table className="table table-bordered">
-                <tbody>
-                  {drawResult.map((result, index)=>
-                    <tr key={index}>
-                      <PlayerCell player={result[0]}/>
-                      <td className="text-center">VS</td>
-                      <PlayerCell player={result[1]}/>
-                    </tr>
-                  )}
-                </tbody>
-              </table>
-            </div>
+            <table className="table table-bordered">
+              <tbody>
+                {drawResult.map((result, index)=>
+                  <tr key={index}>
+                    <PlayerCell player={result[0]}/>
+                    <td className="text-center">VS</td>
+                    <PlayerCell player={result[1]}/>
+                  </tr>
+                )}
+              </tbody>
+            </table>
           </div>
         }
         {!!playerList.length &&
           <div className="panel panel-default">
             <div className="panel-heading text-bold">Player List</div>
             <div className="panel-body">
-              <table className="table table-bordered table-condensed">
-                <tbody>
-                  {playerList.map((player, index) =>
-                    <tr key={player.name}>
-                      <PlayerCell player={player}/>
-                      <td className="text-center">
-                        <div className="btn btn-danger btn-xs" onClick={this.remove.bind(this, index)}>Remove</div>
-                      </td>
-                    </tr>
-                  )}
-                </tbody>
-              </table>
+              <div className="progress" style={{
+                marginBottom: 0
+              }}>
+                {!!girlNum &&
+                  <div className="progress-bar progress-bar-danger" style={{
+                    width: `${girlNum / totalNum * 100}%`
+                  }}>{girlNum}</div>
+                }
+                <div className="progress-bar progress-bar-info" style={{
+                    width: `${100 - girlNum / totalNum * 100}%`
+                }}>{totalNum - girlNum}</div>
+              </div>
             </div>
+            <table className="table table-bordered table-condensed">
+              <tbody>
+                {playerList.map((player, index) =>
+                  <tr key={player.name}>
+                    <PlayerCell player={player}/>
+                    <td className="text-center">
+                      <div className="btn btn-danger btn-xs" onClick={this.remove.bind(this, index)}>Remove</div>
+                    </td>
+                  </tr>
+                )}
+              </tbody>
+            </table>
           </div>
         }
       </div>
