@@ -25,18 +25,24 @@ export class Draw extends Component {
       return;
     }
     if(this.nameSet.has(name)) {
-      alert('Your name has been occupied');
+      alert('This player\'s name has been occupied');
       return;
     }
-    reset();
-    this.nameSet.add(name);
     const player = {
       name,
       gender
     };
     if(seedIndex && (+seedIndex + '' === seedIndex)) {
-      player.seedIndex = +seedIndex;
+      const _seedIndex = +seedIndex;
+      if(this.seedNameMap.has(_seedIndex)) {
+        alert(`${this.seedNameMap.get(_seedIndex)} is No. ${_seedIndex} seed player now.`);
+        return;
+      }
+      this.seedNameMap.set(_seedIndex, name);
+      player.seedIndex = _seedIndex;
     }
+    this.nameSet.add(name);
+    reset();
     add(player);
   }
   remove(index) {
@@ -47,6 +53,7 @@ export class Draw extends Component {
     }
     if(confirm('Will you remove this player?')) {
       this.nameSet.delete(playerList[index].name);
+      this.seedNameMap.delete(playerList[index].seedIndex);
       remove(index);
     }
   }
@@ -72,6 +79,10 @@ export class Draw extends Component {
   componentWillMount() {
     const { playerList } = this.props;
     this.nameSet = new Set(playerList.map(player => player.name));
+    this.seedNameMap = new Map(
+        playerList.filter(player => player.seedIndex)
+          .map(player => [player.seedIndex, player.name])
+    );
   }
   render() {
     const { name, gender, seedIndex, drawResult, playerList, updateFiled, add, draw } = this.props;

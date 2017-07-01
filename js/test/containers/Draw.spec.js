@@ -280,4 +280,58 @@ describe('Draw', () => {
     removeBtns.at(2).simulate('click');
     expect(remove).toHaveBeenCalledWith(2);
   });
+  it('should not add a player with existing name', () => {
+    const updateField = expect.createSpy();
+    const add = expect.createSpy();
+    const reset = expect.createSpy();
+    const remove = expect.createSpy();
+    const draw = expect.createSpy();
+
+    const tree = shallow(
+      <Draw
+        name="龚航"
+        gender={1}
+        seedIndex=""
+        playerList={playerList}
+        drawResult={[]}
+        updateField={updateField}
+        add={add}
+        reset={reset}
+        remove={remove}
+        draw={draw}
+      />
+    );
+
+    const addBtn = tree.find('.btn-primary');
+    addBtn.simulate('click');
+    expect(add).toNotHaveBeenCalled();
+    expect(reset).toNotHaveBeenCalled();
+  });
+  it('should not add a player with existing seedIndex', () => {
+    const updateField = expect.createSpy();
+    const add = expect.createSpy();
+    const reset = expect.createSpy();
+    const remove = expect.createSpy();
+    const draw = expect.createSpy();
+
+    const tree = shallow(
+      <Draw
+        name="杜昊燃"
+        gender={1}
+        seedIndex="1"
+        playerList={playerList}
+        drawResult={[]}
+        updateField={updateField}
+        add={add}
+        reset={reset}
+        remove={remove}
+        draw={draw}
+      />
+    );
+
+    const addBtn = tree.find('.btn-primary');
+    addBtn.simulate('click');
+    expect(add).toNotHaveBeenCalled();
+    expect(reset).toNotHaveBeenCalled();
+  });
 });
